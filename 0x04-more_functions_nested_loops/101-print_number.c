@@ -1,50 +1,37 @@
-#include "main.h"
-
+#include "holberton.h"
 /**
- * print_number - Print any number one character at a time
- * @n: Number to print
- *
- * Return: Nothing
+ * print_number - prints numbers
+ * @n: number to be printed
+ * Return:void
  */
+
 void print_number(int n)
 {
-	long hn;
-	long n2 = n;
 
-	if (n2 < 0)
+	int d = 1, i = 0, ii = 0;
+
+	if (n < 0)
 	{
 		_putchar('-');
-		n2 *= -1;
+		n = -n;
 	}
-	if (n2 / 100000 != 0)
+
+	while (n / d != 0)
 	{
-		hn = n2 / 100000;
-		_putchar(hn / 10000 % 10 + '0');
-		_putchar(hn / 1000 % 10 + '0');
-		_putchar(hn / 100 % 10 + '0');
-		_putchar(hn / 10 % 10 + '0');
-		_putchar(hn % 10 + '0');
+		d *= 10;
+		i++;
 	}
-		hn = n2 % 100000;
-		if (hn / 10000 % 10 != 0)
-		{
-			_putchar(hn / 10000 % 10 + '0');
-			_putchar(hn / 1000 % 10 + '0');
-			_putchar(hn / 100 % 10 + '0');
-			_putchar(hn / 10 % 10 + '0');
-		}
-		else if (hn / 1000 % 10 != 0)
-		{
-			_putchar(hn / 1000 % 10 + '0');
-			_putchar(hn / 100 % 10 + '0');
-			_putchar(hn / 10 % 10 + '0');
-		}
-		else if (hn / 100 % 10 != 0)
-		{
-			_putchar(hn / 100 % 10 + '0');
-			_putchar(hn / 10 % 10 + '0');
-		}
-		else if (hn / 10 % 10 != 0)
-			_putchar(hn / 10 % 10 + '0');
-		_putchar(hn % 10 + '0');
+	d = d / 10;
+
+	while (ii < i)
+	{
+		_putchar('0' + n / d);
+		n = n - (n / d) * d;
+		d = d / 10;
+		ii++;
+	}
+
+	if (i == 0)
+		_putchar('0' + n);
+
 }
