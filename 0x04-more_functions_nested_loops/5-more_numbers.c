@@ -19,7 +19,8 @@ void more_numbers(void)
 				b = c;
 			else
 			{
-				a = c / 10; b = c % 10;
+				a = c / 10;
+				b = c % 10;
 				_putchar('0' + a);
 			}
 			_putchar('0' + b);
