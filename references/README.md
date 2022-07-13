@@ -11,7 +11,7 @@
 # Low-Level Programming - Reference
 
 ## Description
-This directory contains books of refernce for low-level programming
+This directory contains books of refernce for low-level programming.
 
 ## Author
 
