@@ -179,4 +179,3 @@ void print_result(char *src, int length)
 		printf("%c", src[i]);
 	}
 }
-
