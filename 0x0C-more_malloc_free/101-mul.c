@@ -1,225 +1,142 @@
-#include <stdio.h>
+#include "main.h"
 #include <stdlib.h>
-
-int _strlen(char *s);
-char *xarray(int size);
-char *_zero_iteration(char *s);
-int convert_to_digit(char s);
-void _product(char *prod, char *mul, int digit, int zeroes);
-void nums_add(char *final_prod, char *next_prod, int next_len);
+#include <stdio.h>
 
 /**
- *_strlen - length of string
- *
- *@s:string
- *
- *Return:string length
- *
+ *  _print - moves a string one place to the left and prints the string
+ *  @str: string to move
+ *  @l: size of string
+ *  Return: void
  */
-int _strlen(char *s)
+void _print(char *str, int l)
 {
-	int i;
+int i, j;
 
-	for (i = 0; s[i] != '\0'; i++)
-		;
-	return (i);
+i = j = 0;
+while (i < l)
+{
+if (str[i] != '0')
+
+j = 1;
+if (j || i == l - 1)
+_putchar(str[i]);
+i++;
+}
+_putchar('\n');
+free(str);
+}
+
+/**
+ *  mul - multiplies a char with a string and places the answer into dest
+ *  @n: char to multiply
+ *  @num: string to multiply
+ *  @num_index: last non NULL index of num
+ *  @dest: destination of multiplication
+ *  @dest_index: highest index to start addition
+ *  Return: pointer to dest, or NULL on failure
+ */
+char *mul(char n, char *num, int num_index, char *dest, int dest_index)
+{
+int j, k, mul, mulrem, add, addrem;
+
+mulrem = addrem = 0;
+for (j = num_index, k = dest_index; j >= 0; j--, k--)
+{
+mul = (n - '0') * (num[j] - '0') + mulrem;
+mulrem = mul / 10;
+add = (dest[k] - '0') + (mul % 10) + addrem;
+addrem = add / 10;
+dest[k] = add % 10 + '0';
+}
+for (addrem += mulrem; k >= 0 && addrem; k--)
+{
+add = (dest[k] - '0') + addrem;
+addrem = add / 10;
+dest[k] = add % 10 + '0';
+}
+if (addrem)
+{
+return (NULL);
+}
+return (dest);
 }
 /**
- *xarray - creates an array and initializes its value to x plus terminating
- *null byte
- *@size:size of array to be initialised
- *Return:pointer to array
- */
-char *xarray(int size)
+* check_for_digits - checks the arguments to ensure they are digits
+* @av: pointer to arguments
+* Return: 0 if digits, 1 if not
+*/
+int check_for_digits(char **av)
 {
-	int i;
-	char *arr;
+int i, j;
 
-	arr = malloc(sizeof(char) * size);
-	if (arr == NULL)
-	{
-		exit(98);
-	}
-	for (i = 0; i < (size - 1); i++)
-	{
-		arr[i] = 'x';
-	}
-	arr[i] = '\0';
-	return (arr);
-}
-/**
- *_zero_iteration - iterates thru a given no. of zeroes
- *
- *@s:string to be iterated
- *Return:pointer to next non-zero element
- */
-char *_zero_iteration(char *s)
+for (i = 1; i < 3; i++)
 {
-	while (*s && *s == '0')
-	{
-		s++;
-	}
-	return (s);
-}
-/**
- *convert_to_digit - converts digit character to int
- *
- *@s:digit character
- *
- *Return:converted int
- *
- */
-int convert_to_digit(char s)
+for (j = 0; av[i][j]; j++)
 {
-	int digit = s - '0';
-
-	if (digit < 0 || digit > 9)
-	{
-		printf("Error\n");
-		exit(98);
-	}
-	return (digit);
+if (av[i][j] < '0' || av[i][j] > '9')
+return (1);
 }
+}
+return (0);
+}
+
 /**
- *_product - multiplies string of numbers by a single digit
- *
- *@prod:buffer to store result
- *@mul:string of no.
- *@digit:single digit
- *@zeroes:leading zeroes
- *
- *Return:void
+ * init - initializes a string
+ * @str: sting to initialize
+ * @l: length of strinf
+ * Return: void
  */
-void _product(char *prod, char *mul, int digit, int zeroes)
+void init(char *str, int l)
 {
-	int mul_len, num, tens = 0;
+int i;
 
-	mul_len = _strlen(mul) - 1;
-	mul += mul_len;
-
-	while (*prod)
-	{
-		*prod = 'x';
-		prod++;
-	}
-	prod--;
-
-	while (zeroes--)
-	{
-		*prod = '0';
-		prod--;
-	}
-	for (; mul_len >= 0; mul_len--, prod--, mul--)
-	{
-		if (*mul < '0' || *mul > '9')
-		{
-			printf("Error\n");
-			exit(98);
-		}
-		num = (*mul - '0') * digit;
-		num += tens;
-		*prod = (num % 10) + '0';
-		tens = num / 10;
-	}
-	if (tens)
-	{
-		*prod = (tens % 10) + '0';
-	}
+for (i = 0; i < l; i++)
+str[i] = '0';
+str[i] = '\0';
 }
-/**
- *nums_add - adds numbers stored in two strings
- *
- *@final_prod:final product buffer
- *@next_prod :next product to be added
- *@next_len:length of next prod
- *
- *Return:void
- */
-void nums_add(char *final_prod, char *next_prod, int next_len)
-{
-	int num, tens;
 
-	tens = 0;
-	while (*(final_prod + 1))
-	{
-		final_prod++;
-	}
-	while (*(next_prod + 1))
-	{
-		next_prod++;
-	}
-	for (; *final_prod != 'x'; final_prod--)
-	{
-		num = (*final_prod - '0') + (*next_prod - '0');
-		num += tens;
-		*final_prod = (num % 10) + '0';
-		tens = num / 10;
-		next_prod--;
-		next_len--;
-	}
-	for (; next_len >= 0 && *next_prod != 'x'; next_len--)
-	{
-		num = (*next_prod - '0');
-		num += tens;
-		*final_prod = (num % 10) + '0';
-		tens = num / 10;
-		final_prod--;
-		next_prod--;
-	}
-	if (tens)
-	{
-		*final_prod = (tens % 10) + '0';
-	}
-}
 /**
- *main - multiplies two positive numbers and prints the result
- *
- *@argc:arguement count
- *@argv:arguement vector
- *Return:(0- success)
+ *  main - multiply two numbers
+ *  @argc: number of arguments
+ *  @argv: argument vector
+ *  Return: zero, or exit status of 98 if failure
  */
 int main(int argc, char *argv[])
 {
-	char *final_prod, *next_prod;
-	int i, size, digit, zeroes = 0;
-
-	if (argc != 3)
-	{
-		printf("Error\n");
-		exit(98);
-	}
-	if (*(argv[1]) == '0')
-	{
-		argv[1] = _zero_iteration(argv[1]);
-	}
-	if (*(argv[2]) == '0')
-	{
-		argv[2] = _zero_iteration(argv[2]);
-	}
-	if (*(argv[1]) == '\0' || *(argv[2]) == '\0')
-	{
-		printf("0\n");
-		return (0);
-	}
-	size = _strlen(argv[1]) + _strlen(argv[2]);
-	final_prod = xarray(size + 1);
-	next_prod = xarray(size + 1);
-
-	for (i = _strlen(argv[2]) - 1; i >= 0; i--)
-	{
-		digit = convert_to_digit(*(argv[2] + i));
-		_product(next_prod, argv[1], digit, zeroes++);
-		nums_add(final_prod, next_prod, size - 1);
-	}
-	for (i = 0; final_prod[i]; i++)
-	{
-		if (final_prod[i] != 'x')
-		{
-			putchar(final_prod[i]);
-		}
-	}
-	putchar('\n');
-	free(next_prod);
-	free(final_prod);
-	return (0);
+int l1, l2, ln, ti, i;
+char *a;
+char *t;
+char e[] = "Error\n";
+if (argc != 3 || check_for_digits(argv))
+{
+for (ti = 0; e[ti]; ti++)
+_putchar(e[ti]);
+exit(98);
+}
+for (l1 = 0; argv[1][l1]; l1++)
+;
+for (l2 = 0; argv[2][l2]; l2++)
+;
+ln = l1 + l2 + 1;
+a = malloc(ln *sizeof(char));
+if (a == NULL)
+{
+for (ti = 0; e[ti]; ti++)
+_putchar(e[ti]);
+exit(98);
+}
+init(a, ln - 1);
+for (ti = l2 - 1, i = 0; ti >= 0; ti--, i++)
+{
+t = mul(argv[2][ti], argv[1], l1 - 1, a, (ln - 2) - i);
+if (t == NULL)
+{
+for (ti = 0; e[ti]; ti++)
+_putchar(e[ti]);
+free(a);
+exit(98);
+}
+}
+_print(a, ln - 1);
+return (0);
 }
