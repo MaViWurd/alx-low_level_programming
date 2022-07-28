@@ -1,7 +1,8 @@
 0x0B. C - malloc, free
 ======================
 
--   By Julien Barbier
+-   By E. Marvelous
+-   Authorised Julien Barbier
 
 
 Concepts
