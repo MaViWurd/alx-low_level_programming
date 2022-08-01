@@ -1,18 +1,14 @@
 #include <stdio.h>
-#include "dog.h"
 
 /**
- * main - check the code
+ * main - Prints the name of the file of the program
+ *        was compiled from, followed by a new line.
  *
  * Return: Always 0.
  */
 int main(void)
 {
-    struct dog my_dog;
+	printf("%s\n", __FILE__);
 
-    my_dog.name = "Poppy";
-    my_dog.age = 3.5;
-    my_dog.owner = "Bob";
-    print_dog(&my_dog);
-    return (0);
+	return (0);
 }
