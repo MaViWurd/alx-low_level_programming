@@ -1,14 +1,18 @@
 #include <stdio.h>
+#include "dog.h"
 
 /**
-*main - prints the name of
-*the file it was compiled from
-*
-*Return: nothing to be returned
-*/
-
+ * main - check the code
+ *
+ * Return: Always 0.
+ */
 int main(void)
 {
-printf("%s\n", __FILE__);
-return (0);
+    struct dog my_dog;
+
+    my_dog.name = "Poppy";
+    my_dog.age = 3.5;
+    my_dog.owner = "Bob";
+    print_dog(&my_dog);
+    return (0);
 }
